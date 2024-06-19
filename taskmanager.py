@@ -9,6 +9,11 @@ from datetime import datetime
 class Task:
     '''
     Represents a task in the task manager application
+    Attributes:
+    title: Title of the task
+    description: Description of the task
+    due_date: Due date of the task
+    status: Status of the task
     '''
     def __init__(self, title, description, due_date, status):
         self.title = title
