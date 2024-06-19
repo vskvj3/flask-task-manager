@@ -5,5 +5,15 @@
   </head>
   <body>
     <h1>Hello, world!</h1>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <strong>{{ task.title }}</strong><br>
+                {{ task.description }}<br>
+                Due: {{ task.due_date }}<br>
+                Status: {{ task.status }}<br>
+            </li>
+        {% endfor %}
+    </ul>
   </body>
 </html>
