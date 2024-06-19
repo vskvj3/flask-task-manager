@@ -66,3 +66,19 @@ class TaskManager:
             del self.tasks[task_id]
         except IndexError as e:
             raise ValueError('Invalid task ID') from e
+
+    def save_tasks(self, filename):
+        ''''
+        Takes a filename, saves all tasks into the file.
+        '''
+        with open(filename, 'w') as file:
+            tasks_dict = [task.__dict__ for task in self.tasks]
+            json.dump(tasks_dict, file)
+
+    def load_tasks(self, filename):
+        '''
+        Takes a file name, loads all tasks from the file to the tasks list.
+        '''
+        with open(filename, 'r') as file:
+            tasks_dict = json.load(file)
+            self.tasks = [Task(**task) for task in tasks_dict]
