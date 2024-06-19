@@ -18,3 +18,16 @@ class Task:
 
     def __str__(self):
         return f"Title: {self.title}, Description: {self.description}, Due Date: {self.due_date}, Status: {self.status}"
+    
+class TaskManager:
+    '''
+    TaskManager: Functions to manage tasks
+    '''
+    def __init__(self):
+        self.tasks = []
+
+    def add_task(self, task):
+        self.tasks.append(task)
+
+    def view_tasks(self):
+        return self.tasks
