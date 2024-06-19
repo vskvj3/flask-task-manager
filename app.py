@@ -25,12 +25,40 @@ def add_task():
         title = request.form['title']
         description = request.form['description']
         due_date = request.form['due_date']
-        print(due_date)
         status = request.form['status']
         task = Task(title, description, due_date, status)
         task_manager.add_task(task)
         return redirect(url_for('index'))
     return render_template('addtask.html')
+
+@app.route('/update/<int:task_id>', methods=['GET', 'POST'])
+def update_task(task_id):
+    '''
+    Page to update an existing task
+    '''
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        due_date = request.form['due_date']
+        status = request.form['status']
+        try:
+            task_manager.update_task(task_id, title=title, description=description, due_date=due_date, status=status)
+        except ValueError:
+            return redirect(url_for('index'))
+        return redirect(url_for('index'))
+    try:
+        task = task_manager.view_tasks()[task_id]
+    except ValueError:
+        return redirect(url_for('index'))
+    return render_template('updatetask.html', task=task)
+
+@app.route('/delete/<int:task_id>', methods=['POST'])
+def delete_task(task_id):
+    '''
+    Deletes a task based on task id
+    '''
+    task_manager.delete_task(task_id)
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)
