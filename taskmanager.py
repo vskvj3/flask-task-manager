@@ -18,7 +18,8 @@ class Task:
     def __init__(self, title, description, due_date, status):
         self.title = title
         self.description = description
-        self.due_date = due_date
+        year, month, day = map(int, due_date.split('-'))
+        self.due_date = datetime(year, month, day)
         self.status = status
 
     def __str__(self):
