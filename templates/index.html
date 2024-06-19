@@ -1,30 +1,36 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Task Manager</title>
-  </head>
-  <body>
-    <h1>Existing Tasks</h1>
-    <a href="{{ url_for('add_task') }}">Add New Task</a>
-    <form action="{{ url_for('save_tasks') }}" method="post">
-        <button type="submit">Save Tasks</button>
+{% extends "base.html" %} 
+{% block title %}Home Page{% endblock %} 
+{% block content %}
+<h1>Existing Tasks</h1>
+<a href="{{ url_for('add_task') }}">Add New Task</a>
+<form action="{{ url_for('save_tasks') }}" method="post">
+  <button type="submit">Save Tasks</button>
+</form>
+<form action="{{ url_for('load_tasks') }}" method="post">
+  <button type="submit">Load Tasks</button>
+</form>
+{% if tasks == [] %}
+<p>No tasks found.</p>
+{% else %}
+<ul>
+  {% for task in tasks %}
+  <li>
+    <strong>{{ task.title }}</strong><br />
+    {{ task.description }}<br />
+    Due: {{ task.due_date }}<br />
+    Status: {{ task.status }}<br />
+    <button>
+      <a href="{{ url_for('update_task', task_id=loop.index0) }}">Update</a>
+    </button>
+    <form
+      action="{{ url_for('delete_task', task_id=loop.index0) }}"
+      method="post"
+      style="display: inline"
+    >
+      <button type="submit">Delete</button>
     </form>
-    <form action="{{ url_for('load_tasks') }}" method="post">
-        <button type="submit">Load Tasks</button>
-    </form>
-    <ul>
-        {% for task in tasks %}
-            <li>
-                <strong>{{ task.title }}</strong><br>
-                {{ task.description }}<br>
-                Due: {{ task.due_date }}<br>
-                Status: {{ task.status }}<br>
-                <button> <a href="{{ url_for('update_task', task_id=loop.index0) }}">Update</a> </button>
-                <form action="{{ url_for('delete_task', task_id=loop.index0) }}" method="post" style="display:inline;">
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
-  </body>
-</html>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

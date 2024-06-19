@@ -2,7 +2,7 @@
 Flask app
 '''
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Response
 from taskmanager import Task, TaskManager
 
 app = Flask(__name__)
@@ -62,12 +62,18 @@ def delete_task(task_id):
 
 @app.route('/save', methods=['POST'])
 def save_tasks():
-    task_manager.save_tasks('tasks.json')
-    return redirect(url_for('index'))
+    task_manager.save_tasks('dumps/tasks.json')
+    with open('dumps/tasks.json') as fp:
+        json_data = fp.read()
+    return Response(
+        json_data,
+        mimetype="text/csv",
+        headers={"Content-disposition":
+                 "attachment; filename=file.json"})
 
 @app.route('/load', methods=['POST'])
 def load_tasks():
-    task_manager.load_tasks('tasks.json')
+    task_manager.load_tasks('dumps/tasks.json')
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
