@@ -60,5 +60,15 @@ def delete_task(task_id):
     task_manager.delete_task(task_id)
     return redirect(url_for('index'))
 
+@app.route('/save', methods=['POST'])
+def save_tasks():
+    task_manager.save_tasks('tasks.json')
+    return redirect(url_for('index'))
+
+@app.route('/load', methods=['POST'])
+def load_tasks():
+    task_manager.load_tasks('tasks.json')
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
     app.run(debug=True)

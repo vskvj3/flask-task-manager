@@ -19,7 +19,7 @@ class Task:
         self.title = title
         self.description = description
         year, month, day = map(int, due_date.split('-'))
-        self.due_date = date(year, month, day)
+        self.due_date =  due_date
         self.status = status
 
     def __str__(self):
@@ -77,14 +77,20 @@ class TaskManager:
         ''''
         Takes a filename, saves all tasks into the file.
         '''
-        with open(filename, 'w') as file:
-            tasks_dict = [task.__dict__ for task in self.__tasks]
-            json.dump(tasks_dict, file)
+        try:
+            with open(filename, 'w') as file:
+                tasks_dict = [task.__dict__ for task in self.__tasks]
+                json.dump(tasks_dict, file)
+        except Exception as e:
+            raise ValueError('Error saving tasks') from e
 
     def load_tasks(self, filename):
         '''
         Takes a file name, loads all tasks from the file to the tasks list.
         '''
-        with open(filename, 'r') as file:
-            tasks_dict = json.load(file)
-            self.__tasks = [Task(**task) for task in tasks_dict]
+        try:
+            with open(filename, 'r') as file:
+                tasks_dict = json.load(file)
+                self.__tasks = [Task(**task) for task in tasks_dict]
+        except Exception as e:
+            raise ValueError('Error loading tasks') from e
