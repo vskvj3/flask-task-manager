@@ -12,6 +12,7 @@
                 {{ task.description }}<br>
                 Due: {{ task.due_date }}<br>
                 Status: {{ task.status }}<br>
+                <button> <a href="{{ url_for('update_task', task_id=loop.index0) }}">Update</a> </button>
                 <form action="{{ url_for('delete_task', task_id=loop.index0) }}" method="post" style="display:inline;">
                     <button type="submit">Delete</button>
                 </form>
