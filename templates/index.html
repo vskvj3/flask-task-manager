@@ -10,11 +10,13 @@
                 <button type="submit" class="btn btn-primary w-100">Save Tasks</button>
             </form>
             <form action="{{ url_for("load_tasks") }}" method="post">
+                <label for="formFile" class="form-label"> Import tasks</label>
+                <input class="form-control" type="file" id="formFile">            
                 <button type="submit" class="btn btn-primary w-100">Load Tasks</button>
             </form>
         </div>
     </div>
-    <div class="container">
+    <div class="container px-4">
         <h1>Tasks</h1>
         {% if tasks == [] %}
             <p>
@@ -30,26 +32,13 @@
                     {% for task in tasks %}
                         {% if task.status == 'complete' %}
                             <div class="card text-bg-success mb-3" style="width: 35rem">
-                                <div class="card-header">{{ task.title }}</div>
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ task.description }}</h5>
-                                    <p class="card-text">
-                                        Due: {{ task.due_date }}
-                                        <br />
-                                        Status: {{ task.status }}
-                                        <br />
-                                    </p>
-                                    <a href="{{ url_for('update_task', task_id=loop.index0) }}"
-                                       class="btn btn-primary">Update</a>
-                                    <form action="{{ url_for('delete_task', task_id=loop.index0) }}"
-                                          method="post"
-                                          style="display: inline">
-                                        <button class="btn btn-primary" type="submit">Delete</button>
-                                    </form>
-                                </div>
-                            </div>
-                            {% else %}
+                        {% elif date_diff(task.due_date) >= 0 and date_diff(task.due_date) <= 2 %}
+                            <div class="card text-bg-warning mb-3" style="width: 35rem">
+                        {% elif date_diff(task.due_date) < 0 %}
+                            <div class="card text-bg-danger mb-3" style="width: 35rem">
+                        {% else %}
                             <div class="card mb-3" style="width: 35rem">
+                        {% endif %}
                                 <div class="card-header">{{ task.title }}</div>
                                 <div class="card-body">
                                     <h5 class="card-title">{{ task.description }}</h5>
@@ -58,6 +47,7 @@
                                         <br />
                                         Status: {{ task.status }}
                                         <br />
+                                        Days Left: {{date_diff(task.due_date)}}
                                     </p>
                                     <a href="{{ url_for('update_task', task_id=loop.index0) }}"
                                        class="btn btn-primary">Update</a>
@@ -68,11 +58,9 @@
                                     </form>
                                 </div>
                             </div>
-                        {% endif %}
                     {% endfor %}
                 </div>
             {% endif %}
         </div>
-    {% endblock %}
-</div>
-</div>
+    </div>
+{% endblock %}

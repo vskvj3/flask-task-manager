@@ -4,9 +4,22 @@ Flask app
 
 from flask import Flask, render_template, request, redirect, url_for, Response
 from taskmanager import Task, TaskManager
+from datetime import date
 
 app = Flask(__name__)
 task_manager = TaskManager()
+
+def date_diff(given_date):
+    '''
+    Takes a date, returns diffrence in days.
+    '''
+    year, month, day = map(int, given_date.split('-'))
+    
+    given_date = date(year, month, day)
+    diff = str(given_date - date.today())
+    return int(diff.split(' ')[0])
+
+app.jinja_env.globals.update(date_diff=date_diff)
 
 @app.route('/')
 def index():
