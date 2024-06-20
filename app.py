@@ -21,7 +21,10 @@ def date_diff(given_date):
     
     given_date = date(year, month, day)
     diff = str(given_date - date.today())
-    return int(diff.split(' ')[0])
+    try: 
+        return int(diff.split(' ', maxsplit=1)[0])
+    except ValueError:
+        return 0
 
 app.jinja_env.globals.update(date_diff=date_diff)
 

@@ -13,7 +13,7 @@
             <form action="{{ url_for("load_tasks") }}" method="post" enctype="multipart/form-data">
                 <label for="formFile" class="form-label"> Import tasks</label>
                 <input class="form-control form-control-sm" type="file" id="formFile" name="file" aria-describedby="uploadHelp" accept=".json" required>
-                <div id="uploadHelp" class="form-text">Import tasks from a json.</div>            
+                <div id="uploadHelp" class="form-text">Import tasks from a json.<br/> <i class="fa fa-github"></i> Your existing tasks will be lost</div>            
                 <button type="submit" class="btn btn-primary w-100">Load Tasks</button>
             </form>
         </div>
@@ -49,7 +49,14 @@
                                         <br />
                                         Status: {{ task.status }}
                                         <br />
-                                        Days Left: {{date_diff(task.due_date)}}
+                                        {% if date_diff(task.due_date) >= 0 and date_diff(task.due_date) <= 2 %}
+                                          Due date is near: {{date_diff(task.due_date)}} days left
+                                        {% elif date_diff(task.due_date) < 0 %}
+                                          Due date is already over: {{date_diff(task.due_date)}}
+                                        {% else %}
+                                          Days Left: {{date_diff(task.due_date)}}
+                                        {% endif %}
+                                        
                                     </p>
                                     <a href="{{ url_for('update_task', task_id=loop.index0) }}"
                                        class="btn btn-primary">Update</a>
