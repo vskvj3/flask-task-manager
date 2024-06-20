@@ -17,10 +17,15 @@ def date_diff(given_date):
     '''
     Takes a date, returns diffrence in days.
     '''
+    # get year, month, day from given date string
     year, month, day = map(int, given_date.split('-'))
-    
+
+    # create date object from year, month, day
     given_date = date(year, month, day)
+
+    # get difference in days
     diff = str(given_date - date.today())
+
     try: 
         return int(diff.split(' ', maxsplit=1)[0])
     except ValueError:
@@ -86,7 +91,7 @@ def delete_task(task_id):
 @app.route('/save', methods=['POST'])
 def save_tasks():
     '''
-    Saves tasks into a file
+    Saves tasks into a file and lets user download the file
     '''
     task_manager.save_tasks('dumps/tasks.json')
     with open('dumps/tasks.json') as fp:
@@ -108,7 +113,7 @@ def load_tasks():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
             task_manager.load_tasks(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
             return redirect(url_for('index'))
-        except:
+        except Exception as e:
             return redirect(url_for('index'))
     else:
         task_manager.load_tasks('dumps/tasks.json')

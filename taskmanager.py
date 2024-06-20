@@ -4,7 +4,6 @@ Task: Represents a task in the task manager application
 TaskManager: Functions to manage tasks
 '''
 import json
-from datetime import date
 
 class Task:
     '''
@@ -18,7 +17,6 @@ class Task:
     def __init__(self, title, description, due_date, status):
         self.title = title
         self.description = description
-        year, month, day = map(int, due_date.split('-'))
         self.due_date =  due_date
         self.status = status
 
@@ -61,10 +59,11 @@ class TaskManager:
         '''
         try:
             task = self.__tasks[task_id]
+            # update task attributes from kwargs
             for key, value in kwargs.items():
                 setattr(task, key, value)
         except IndexError as e:
-            raise ValueError('Invalid task ID') from e
+            raise ValueError('Invalid task ID: ', e) from e
 
     def delete_task(self, task_id):
         '''
@@ -73,7 +72,7 @@ class TaskManager:
         try:
             del self.__tasks[task_id]
         except IndexError as e:
-            raise ValueError('Invalid task ID') from e
+            raise ValueError('Invalid task ID: ', e) from e
 
     def save_tasks(self, filename):
         ''''
@@ -81,10 +80,12 @@ class TaskManager:
         '''
         try:
             with open(filename, 'w') as file:
+                # convert Task objects into dictionary
                 tasks_dict = [task.__dict__ for task in self.__tasks]
+                # dump tasks into a json file
                 json.dump(tasks_dict, file)
         except Exception as e:
-            raise ValueError('Error saving tasks') from e
+            raise ValueError('Error saving tasks: ', e) from e
 
     def load_tasks(self, filename):
         '''
@@ -92,7 +93,9 @@ class TaskManager:
         '''
         try:
             with open(filename, 'r') as file:
+                # loads json into a dictionary
                 tasks_dict = json.load(file)
+                # convert dictionary into Task objects
                 self.__tasks = [Task(**task) for task in tasks_dict]
         except Exception as e:
-            raise ValueError('Error loading tasks') from e
+            raise ValueError('Error loading tasks: ', e) from e
