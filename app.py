@@ -5,9 +5,13 @@ Flask app
 from flask import Flask, render_template, request, redirect, url_for, Response
 from taskmanager import Task, TaskManager
 from datetime import date
+import os
 
 app = Flask(__name__)
 task_manager = TaskManager()
+
+UPLOAD_FOLDER = 'dumps'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def date_diff(given_date):
     '''
@@ -78,6 +82,9 @@ def delete_task(task_id):
 
 @app.route('/save', methods=['POST'])
 def save_tasks():
+    '''
+    Saves tasks into a file
+    '''
     task_manager.save_tasks('dumps/tasks.json')
     with open('dumps/tasks.json') as fp:
         json_data = fp.read()
@@ -89,8 +96,20 @@ def save_tasks():
 
 @app.route('/load', methods=['POST'])
 def load_tasks():
-    task_manager.load_tasks('dumps/tasks.json')
-    return redirect(url_for('index'))
+    '''
+    Loads tasks from a file.
+    '''
+    file = request.files['file']
+    if(file.filename != ''):
+        try:
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+            task_manager.load_tasks(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+            return redirect(url_for('index'))
+        except:
+            return redirect(url_for('index'))
+    else:
+        task_manager.load_tasks('dumps/tasks.json')
+        return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)
