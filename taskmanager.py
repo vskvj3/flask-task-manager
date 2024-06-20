@@ -51,6 +51,8 @@ class TaskManager:
         '''
         Returns tasks list.
         '''
+        # sort tasks based on due date
+        self.__tasks = sorted(self.__tasks, key=lambda x: x.due_date, reverse=True)
         return self.__tasks
 
     def update_task(self, task_id, **kwargs):

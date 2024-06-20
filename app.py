@@ -14,8 +14,6 @@ def index():
     Index page
     '''
     tasks = task_manager.view_tasks()
-    if tasks:
-        tasks.reverse()
     complete_tasks = [task for task in tasks if task.status == 'complete']
     incomplete_tasks = [task for task in tasks if task.status == 'incomplete']
     return render_template('index.html', tasks=tasks, complete_tasks=complete_tasks, incomplete_tasks=incomplete_tasks)
