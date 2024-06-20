@@ -14,7 +14,11 @@ def index():
     Index page
     '''
     tasks = task_manager.view_tasks()
-    return render_template('index.html', tasks=tasks)
+    if tasks:
+        tasks.reverse()
+    complete_tasks = [task for task in tasks if task.status == 'complete']
+    incomplete_tasks = [task for task in tasks if task.status == 'incomplete']
+    return render_template('index.html', tasks=tasks, complete_tasks=complete_tasks, incomplete_tasks=incomplete_tasks)
 
 @app.route('/addtask', methods=['GET', 'POST'])
 def add_task():
@@ -41,6 +45,7 @@ def update_task(task_id):
         description = request.form['description']
         due_date = request.form['due_date']
         status = request.form['status']
+        print(title, description, due_date, status)
         try:
             task_manager.update_task(task_id, title=title, description=description, due_date=due_date, status=status)
         except ValueError:
