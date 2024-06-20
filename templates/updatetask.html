@@ -1,36 +1,44 @@
-{% extends "base.html" %} {% block title %}Home Page{% endblock %} {% block
-content %}
-<div class="container container border rounded mt-3">
-  <h1>Update Task</h1>
-  <form class="mb-3" action="" method="post">
-    <!-- Title: <input type="text" name="title" value="{{ task.title }}"><br>
+{% extends "base.html" %}
+{% block title %}Home Page{% endblock %}
+{% block
+    content %}
+    <div class="container container border rounded mt-3">
+        <h1>Update Task</h1>
+        <form class="mb-3" action="" method="post">
+            <!-- Title: <input type="text" name="title" value="{{ task.title }}"><br>
         Description: <textarea name="description">{{ task.description }}</textarea><br>
-        Due Date: <input type="date" name="due_date" value="{{ task.due_date }}"><br>
-        Status: <input type="text" name="status" value="{{ task.status }}"><br> -->
-    <div class="mb-3">
-      <label for="title" class="form-label">Title</label>
-      <input type="text" class="form-control" value="{{ task.title }}" id="title" name="title" />
+                                                                    Due Date: <input type="date" name="due_date" value="{{ task.due_date }}"><br>
+                                                                    Status: <input type="text" name="status" value="{{ task.status }}"><br> -->
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text"
+                       class="form-control"
+                       value="{{ task.title }}"
+                       id="title"
+                       name="title" />
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" rows="3" name="description">{{ task.description }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="due_date" class="form-label">Due Date</label>
+                <input type="date"
+                       value="{{ task.due_date }}"
+                       class="form-control"
+                       id="due_date"
+                       name="due_date" />
+            </div>
+            <div class="mb-3">
+                <select class="form-select"
+                        aria-label="Task Status"
+                        value="{{ task.status }}"
+                        name="status">
+                    <option value="incomplete">Incomplete</option>
+                    <option value="complete">Done!</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Task</button>
+        </form>
     </div>
-    <div class="mb-3">
-      <label for="description" class="form-label">Description</label>
-      <textarea
-        class="form-control"
-        id="description"
-        rows="3"
-        name="description"
-      >{{ task.description }}</textarea>
-    </div>
-    <div class="mb-3">
-      <label for="due_date" class="form-label">Due Date</label>
-      <input type="date" value="{{ task.due_date }}" class="form-control" id="due_date" name="due_date" />
-    </div>
-    <div class="mb-3">
-      <select class="form-select" aria-label="Task Status" value="{{ task.status }}"  name="status">
-        <option value="incomplete">Incomplete</option>
-        <option value="complete">Done!</option>
-      </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Update Task</button>
-  </form>
-</div>
 {% endblock %}

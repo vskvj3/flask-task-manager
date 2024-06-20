@@ -1,111 +1,78 @@
-{% extends "base.html" %} {% block title %}Home Page{% endblock %} {% block
-content %}
-
-<div class="sidebar">
-  <div class="d-grid gap-2 col-10 mx-auto mt-3">
-    <a href="{{ url_for('add_task') }}" class="btn btn-primary">Add New Task</a>
-    <hr />
-    <form action="{{ url_for('save_tasks') }}" method="post">
-      <button type="submit" class="btn btn-primary w-100">Save Tasks</button>
-    </form>
-    <form action="{{ url_for('load_tasks') }}" method="post">
-      <button type="submit" class="btn btn-primary w-100">Load Tasks</button>
-    </form>
-  </div>
-</div>
-
-<div class="container">
-  <h1>Tasks</h1>
-  {% if tasks == [] %}
-  <p>No tasks found.<br />Add a task to continue</p>
-  {% else %}
-  <div class="row">
-    <div class="col">
-      <h2>All Tasks</h2>
-      {% if tasks == [] %}
-      <p>No tasks found.</p>
-      {% endif %} {% for task in tasks %} {% if task.status == 'complete' %}
-
-      <div class="card text-bg-success mb-3" style="width: 35rem">
-        {% else %}
-        <div class="card mb-3" style="width: 35rem">
-          {% endif %}
-          <div class="card-header">{{ task.title }}</div>
-          <div class="card-body">
-            <h5 class="card-title">{{ task.description }}</h5>
-            <p class="card-text">
-              Due: {{ task.due_date }}<br />
-              Status: {{ task.status }}<br />
-            </p>
-            <a href="{{ url_for('update_task', task_id=loop.index0) }}" class="btn btn-primary">Update</a>
-            <form action="{{ url_for('delete_task', task_id=loop.index0) }}" method="post" style="display: inline">
-              <button class="btn btn-primary" type="submit">Delete</button>
+{% extends "base.html" %}
+{% block title %}Home Page{% endblock %}
+{% block
+    content %}
+    <div class="sidebar">
+        <div class="d-grid gap-2 col-10 mx-auto">
+            <a href="{{ url_for("add_task") }}" class="btn btn-primary">Add New Task</a>
+            <hr />
+            <form action="{{ url_for("save_tasks") }}" method="post">
+                <button type="submit" class="btn btn-primary w-100">Save Tasks</button>
             </form>
-          </div>
+            <form action="{{ url_for("load_tasks") }}" method="post">
+                <button type="submit" class="btn btn-primary w-100">Load Tasks</button>
+            </form>
         </div>
-        {% endfor %}
-        <!-- <h2>Upcomming Tasks</h2>
-      {% if incomplete_tasks == [] %}
-      <p>No upcomming tasks found.</p>
-      {% endif %} {% for task in incomplete_tasks %}
-      <div class="card mb-3" style="width: 35rem">
-        <div class="card-header">{{ task.title }}</div>
-        <div class="card-body">
-          <h5 class="card-title">{{ task.description }}</h5>
-          <p class="card-text">
-            Due: {{ task.due_date }}<br />
-            Status: {{ task.status }}<br />
-          </p>
-          <a
-            href="{{ url_for('update_task', task_id=loop.index0) }}"
-            class="btn btn-primary"
-            >Update</a
-          >
-          <form
-            action="{{ url_for('delete_task', task_id=loop.index0) }}"
-            method="post"
-            style="display: inline"
-          >
-            <button class="btn btn-primary" type="submit">Delete</button>
-          </form>
-        </div>
-      </div>
-      {% endfor %}
     </div>
-
-    <div class="col">
-      <h2>Completed Tasks</h2>
-      {% if complete_tasks == [] %}
-      <p>No completed tasks found.</p>
-      {% endif %}
-      {% for task in complete_tasks %}
-      <div class="card mb-3" style="width: 35rem">
-        <div class="card-header">{{ task.title }}</div>
-        <div class="card-body">
-          <h5 class="card-title">{{ task.description }}</h5>
-          <p class="card-text">
-            Due: {{ task.due_date }}<br />
-            Status: {{ task.status }}<br />
-          </p>
-          <a
-            href="{{ url_for('update_task', task_id=loop.index0) }}"
-            class="btn btn-primary"
-            >Update</a
-          >
-          <form
-            action="{{ url_for('delete_task', task_id=loop.index0) }}"
-            method="post"
-            style="display: inline"
-          >
-            <button class="btn btn-primary" type="submit">Delete</button>
-          </form>
+    <div class="container">
+        <h1>Tasks</h1>
+        {% if tasks == [] %}
+            <p>
+                No tasks found.
+                <br />
+                Add a task to continue
+            </p>
+        {% else %}
+            <div class="row">
+                <div class="col">
+                    <h2>All Tasks</h2>
+                    {% if tasks == [] %}<p>No tasks found.</p>{% endif %}
+                    {% for task in tasks %}
+                        {% if task.status == 'complete' %}
+                            <div class="card text-bg-success mb-3" style="width: 35rem">
+                                <div class="card-header">{{ task.title }}</div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ task.description }}</h5>
+                                    <p class="card-text">
+                                        Due: {{ task.due_date }}
+                                        <br />
+                                        Status: {{ task.status }}
+                                        <br />
+                                    </p>
+                                    <a href="{{ url_for('update_task', task_id=loop.index0) }}"
+                                       class="btn btn-primary">Update</a>
+                                    <form action="{{ url_for('delete_task', task_id=loop.index0) }}"
+                                          method="post"
+                                          style="display: inline">
+                                        <button class="btn btn-primary" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="card mb-3" style="width: 35rem">
+                                <div class="card-header">{{ task.title }}</div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ task.description }}</h5>
+                                    <p class="card-text">
+                                        Due: {{ task.due_date }}
+                                        <br />
+                                        Status: {{ task.status }}
+                                        <br />
+                                    </p>
+                                    <a href="{{ url_for('update_task', task_id=loop.index0) }}"
+                                       class="btn btn-primary">Update</a>
+                                    <form action="{{ url_for('delete_task', task_id=loop.index0) }}"
+                                          method="post"
+                                          style="display: inline">
+                                        <button class="btn btn-primary" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
-      </div>
-      {% endfor %}
-    </div> -->
-      </div>
-      {% endif %}
-    </div>
     {% endblock %}
-  </div>
+</div>
 </div>
