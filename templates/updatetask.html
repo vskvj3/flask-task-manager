@@ -1,12 +1,29 @@
-{% extends "base.html" %} 
-{% block title %}Home Page{% endblock %} 
-{% block content %}
-    <h1>Update Task</h1>
-    <form action="" method="post">
-        Title: <input type="text" name="title" value="{{ task.title }}"><br>
+{% extends "base.html" %} {% block title %}Home Page{% endblock %} {% block
+content %}
+<div class="container">
+  <h1>Update Task</h1>
+  <form action="" method="post">
+    <!-- Title: <input type="text" name="title" value="{{ task.title }}"><br>
         Description: <textarea name="description">{{ task.description }}</textarea><br>
         Due Date: <input type="date" name="due_date" value="{{ task.due_date }}"><br>
-        Status: <input type="text" name="status" value="{{ task.status }}"><br>
-        <button type="submit">Update Task</button>
-    </form>
+        Status: <input type="text" name="status" value="{{ task.status }}"><br> -->
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input type="text" class="form-control" id="title" />
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea class="form-control" id="description" rows="3"></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="due_date" class="form-label">Due Date</label>
+      <input type="date" class="form-control" id="due_date" />
+    </div>
+    <div class="mb-3">
+      <label for="status" class="form-label">Status</label>
+      <input type="text" class="form-control" id="status" />
+    </div>
+    <button type="submit" class="btn btn-primary">Update Task</button>
+  </form>
+</div>
 {% endblock %}
