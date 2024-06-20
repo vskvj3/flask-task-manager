@@ -1,8 +1,8 @@
-{% extends "base.html" %} {% block title %}Home Page{% endblock %} {% block
-content %}
-<div class="container">
+{% extends "base.html" %} {% block title %}Home Page{% endblock %} 
+{% block content %}
+<div class="container border rounded mt-3">
   <h1>Add New Task</h1>
-  <form action="" method="post">
+  <form class="mb-3" action="" method="post">
     <!-- Title: <input type="text" name="title" required><br>
         Description: <textarea name="description" required></textarea><br>
         Due Date: <input type="date" name="due_date" required><br>
@@ -10,19 +10,20 @@ content %}
         <button type="submit">Add Task</button> -->
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
-      <input type="text" class="form-control" id="title" />
+      <input type="text" class="form-control" id="title" name="title" />
     </div>
     <div class="mb-3">
       <label for="description" class="form-label">Description</label>
-      <textarea class="form-control" id="description" rows="3"></textarea>
+      <textarea
+        class="form-control"
+        id="description"
+        name="description"
+        rows="3"
+      ></textarea>
     </div>
     <div class="mb-3">
       <label for="due_date" class="form-label">Due Date</label>
-      <input type="date" class="form-control" id="due_date" />
-    </div>
-    <div class="mb-3">
-      <label for="status" class="form-label">Status</label>
-      <input type="text" class="form-control" id="status" />
+      <input type="date" class="form-control" id="due_date" name="due_date" />
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>

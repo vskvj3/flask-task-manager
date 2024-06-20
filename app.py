@@ -25,7 +25,7 @@ def add_task():
         title = request.form['title']
         description = request.form['description']
         due_date = request.form['due_date']
-        status = request.form['status']
+        status = "incomplete"
         task = Task(title, description, due_date, status)
         task_manager.add_task(task)
         return redirect(url_for('index'))
