@@ -12,3 +12,7 @@ body {
     height: 100%;
     overflow: auto;
   }
+
+  .form-container {
+    margin-top: 5%;
+  }
